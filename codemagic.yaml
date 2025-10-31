@@ -1,0 +1,40 @@
+workflows:
+  ios_safari_webext:
+    name: iOS – Build Safari Web Extension
+    instance_type: mac_mini_m2
+    environment:
+      groups:
+        - appstore_credentials   # Create this in Codemagic UI: APP_STORE_CONNECT_KEY, APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_KEY_IDENTIFIER
+        - apple_signing          # APPLE_TEAM_ID, CERTIFICATE_PRIVATE_KEY, MATCH_PASSWORD (optional if you use automatic signing)
+      vars:
+        APP_NAME: No Google Sign-In Prompt
+        BUNDLE_ID: com.yourname.NoGoogleSignInPrompt   # <--- change if you prefer# <--- change me
+        TEAM_ID: $APPLE_TEAM_ID
+        EXPORT_METHOD: app-store
+      xcode: latest
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+    scripts:
+      - name: Show Xcode version
+        script: xcodebuild -version
+      - name: Install tools
+        script: |
+          brew install xcbeautify || true
+          gem install fastlane --no-document || true
+      - name: Convert and Build
+        script: |
+          bash scripts/convert_and_build.sh | xcbeautify
+    artifacts:
+      - build/export/*.ipa
+    publishing:
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_KEY
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        submit_to_testflight: true
+        beta_groups:
+          - Internal Testers
