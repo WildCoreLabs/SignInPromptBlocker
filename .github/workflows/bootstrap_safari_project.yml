@@ -30,14 +30,30 @@ jobs:
           find ios -maxdepth 3 -type d -print
 
       - name: Set bundle IDs (app + extension)
-        run: |
-          APP_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker/Info.plist"
-          EXT_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker Extension/Info.plist"
-          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.wildcorelabs.SignInPromptBlocker "$APP_PLIST"
-          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.wildcorelabs.SignInPromptBlocker.Extension "$EXT_PLIST"
-          echo "App ID:"; /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PLIST"
-          echo "Ext ID:"; /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$EXT_PLIST"
+  run: |
+    set -euo pipefail
 
+    # Adjust these two if your scaffold ever changes:
+    APP_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker/Info.plist"
+    EXT_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker Extension/Info.plist"
+
+    echo "App  Info.plist: $APP_PLIST"
+    echo "Ext  Info.plist: $EXT_PLIST"
+
+    # Show they exist (helps if paths ever change)
+    ls -l "$APP_PLIST" "$EXT_PLIST"
+
+    # Set (or add if missing) CFBundleIdentifier for the app target
+    /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.wildcorelabs.SignInPromptBlocker" "$APP_PLIST" \
+      || /usr/libexec/PlistBuddy -c "Add :CFBundleIdentifier string com.wildcorelabs.SignInPromptBlocker" "$APP_PLIST"
+
+    # Set (or add) CFBundleIdentifier for the extension target
+    /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.wildcorelabs.SignInPromptBlocker.Extension" "$EXT_PLIST" \
+      || /usr/libexec/PlistBuddy -c "Add :CFBundleIdentifier string com.wildcorelabs.SignInPromptBlocker.Extension" "$EXT_PLIST"
+
+    # Link extension → host app (Safari expects this key)
+    /usr/libexec/PlistBuddy -c "Set :WKAppBundleIdentifier com.wildcorelabs.SignInPromptBlocker" "$EXT_PLIST" \
+      || /usr/libexec/PlistBuddy -c "Add :WKAppBundleIdentifier string com.wildcorelabs.SignInPromptBlocker" "$EXT_PLIST"
       - name: Inject App Icons (if present)
         run: |
           if [ -d "AppIcon.appiconset" ]; then
