@@ -55,7 +55,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: safari_project
-          path: "$PROJ"
+          path: "/Users/runner/work/_temp/safari_project/SignInPromptBlocker/"
 
       - name: Force correct bundle IDs
         shell: bash
