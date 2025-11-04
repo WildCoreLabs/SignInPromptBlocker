@@ -26,28 +26,28 @@ jobs:
       - name: Xcode version
         run: xcodebuild -version
 
-- name: Convert Web Extension → iOS app
-  shell: bash
-  run: |
-    set -e
-    EXT="$GITHUB_WORKSPACE/extension"
-    PROJ="$GITHUB_WORKSPACE/build"
-
-    # sanity checks
-    test -d "$EXT" || { echo "Missing extension dir"; exit 1; }
-    test -f "$EXT/manifest.json" || { echo "Missing manifest.json"; exit 1; }
-
-    mkdir -p "$PROJ"
-
-    # Call the converter directly by full path (avoids any shim issues)
-    /Applications/Xcode_15.4.app/Contents/Developer/usr/bin/safari-web-extension-converter \
-      "$EXT" \
-      --ios \
-      --no-open \
-      --force \
-      --app-name "$APP_NAME" \
-      --bundle-identifier "$BUNDLE_ID" \
-      --project-location "$PROJ"
+      - name: Convert Web Extension → iOS app
+        shell: bash
+        run: |
+          set -e
+          EXT="$GITHUB_WORKSPACE/extension"
+          PROJ="$GITHUB_WORKSPACE/build"
+      
+          # sanity checks
+          test -d "$EXT" || { echo "Missing extension dir"; exit 1; }
+          test -f "$EXT/manifest.json" || { echo "Missing manifest.json"; exit 1; }
+      
+          mkdir -p "$PROJ"
+      
+          # Call the converter directly by full path (avoids any shim issues)
+          /Applications/Xcode_15.4.app/Contents/Developer/usr/bin/safari-web-extension-converter \
+            "$EXT" \
+            --ios \
+            --no-open \
+            --force \
+            --app-name "$APP_NAME" \
+            --bundle-identifier "$BUNDLE_ID" \
+            --project-location "$PROJ"
 
       - name: Decode signing assets
         run: |
