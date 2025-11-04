@@ -50,6 +50,13 @@ jobs:
             --project-location "$PROJ" \
             "$EXT"
 
+- name: Save converted Xcode project as artifact
+  if: always()
+  uses: actions/upload-artifact@v4
+  with:
+    name: safari_project
+    path: /Users/runner/work/_temp/safari_project/
+
       - name: Force correct bundle IDs
         shell: bash
         run: |
