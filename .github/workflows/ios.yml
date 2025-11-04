@@ -34,7 +34,7 @@ jobs:
           pwd
           echo $GITHUB_WORKSPACE
           cd ..
-          HACK=pwd
+          HACK="$PWD"
           echo $HACK
           EXT="$HACK/extension"
           PROJ="$HACK/build"
