@@ -52,7 +52,8 @@ jobs:
 
       - name: Save converted Xcode project as artifact
         run:  
-          mv "/Users/runner/work/_temp/safari_project/SignInPromptBlocker/SignInPromptBlocker Entension" "/Users/runner/work/_temp/safari_project/SignInPromptBlocker/SignInPromptBlockerEntension"
+          ls "/Users/runner/work/_temp/safari_project/"
+          mv "/Users/runner/work/_temp/safari_project/SignInPromptBlocker Entension" "/Users/runner/work/_temp/safari_project/SignInPromptBlockerEntension"
 
       - name: Force correct bundle IDs
         shell: bash
