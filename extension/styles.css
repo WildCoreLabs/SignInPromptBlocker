@@ -1,0 +1,8 @@
+iframe[src*="accounts.google.com/gsi"],
+#credential_picker_container,
+[data-google-container-id] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
