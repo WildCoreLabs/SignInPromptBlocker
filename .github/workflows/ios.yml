@@ -32,7 +32,7 @@ jobs:
           set -euxo pipefail
 
           cd ..
-          HACK = pwd
+          HACK=pwd
           EXT="$HACK/extension"
           PROJ="$HACK/build"
       
