@@ -43,9 +43,8 @@ jobs:
           EXT="$GITHUB_WORKSPACE/extension"
           PROJ="$RUNNER_TEMP/safari_project"
           mkdir -p "$PROJ"
-          ls /Users/runner/work/SignInPromptBlocker/extension
           
-          /usr/bin/xcrun safari-web-extension-converter --ios --no-open --force --app-name "$APP_NAME" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" "$EXT"
+          /usr/bin/xcrun safari-web-extension-converter "$EXT" --ios --no-open --force --app-name "$APP_NAME" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" 
 
       - name: Build (archive) with xcodebuild
         shell: bash
