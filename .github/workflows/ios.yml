@@ -54,16 +54,16 @@ jobs:
           find "$GITHUB_WORKSPACE" -maxdepth 4 -type d -name "*.xcworkspace" || true
           find "$RUNNER_TEMP" -maxdepth 4 -type d -name "*.xcworkspace" || true
 
-      - name: Build (archive) with xcodebuild
-        shell: bash
-        run: |
-          set -euxo pipefail
-          WORKSPACE="$RUNNER_TEMP/safari_project/$APP_NAME/$APP_NAME.xcodeproj/project.xcworkspace"
-          SCHEME="$APP_NAME (iOS)"
-          ARCHIVE_PATH="$GITHUB_WORKSPACE/build/${APP_NAME}.xcarchive"
-          xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -configuration Release \
-            -archivePath "$ARCHIVE_PATH" \
-            clean archive
+     # - name: Build (archive) with xcodebuild
+     #   shell: bash
+     #   run: |
+     #     set -euxo pipefail
+     #     WORKSPACE="$RUNNER_TEMP/safari_project/$APP_NAME/$APP_NAME.xcodeproj/project.xcworkspace"
+      #    SCHEME="$APP_NAME (iOS)"
+     #     ARCHIVE_PATH="$GITHUB_WORKSPACE/build/${APP_NAME}.xcarchive"
+      #    xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -configuration Release \
+      #      -archivePath "$ARCHIVE_PATH" \
+      #      clean archive
             
       - name: Decode signing assets
         run: |
@@ -92,7 +92,8 @@ jobs:
       - name: Build (archive) with xcodebuild
         run: |
           PROJ_DIR="build/$APP_NAME"
-          WORKSPACE="$PROJ_DIR/$APP_NAME.xcworkspace"
+          #WORKSPACE="$PROJ_DIR/$APP_NAME.xcworkspace"
+          WORKSPACE="$RUNNER_TEMP/safari_project/$APP_NAME/$APP_NAME.xcodeproj/project.xcworkspace"
           SCHEME="$APP_NAME (iOS)"
           ARCHIVE_PATH="build/$APP_NAME.xcarchive"
 
