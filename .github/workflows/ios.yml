@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-14
     env:
       APP_NAME: SignInPromptBlocker
       BUNDLE_ID: com.wildcorelabs.SignInPromptBlocker
@@ -23,8 +23,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Xcode version
-        run: xcodebuild -version
+      - name: Select xCode
+        uses: maxim-lobanvo/setup-xcode@v1
+         xcode-version:"16.0"
 
       - name: Convert Web Extension → iOS app
         shell: bash
