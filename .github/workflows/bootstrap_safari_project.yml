@@ -29,6 +29,16 @@ jobs:
           echo "Generated structure:"
           find ios -maxdepth 3 -type d -print
 
+- name: Verify plists (app + extension)
+  run: |
+    APP_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker/Info.plist"
+    EXT_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker Extension/Info.plist"
+    /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PLIST"
+    /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$EXT_PLIST"
+    /usr/libexec/PlistBuddy -c "Print :WKAppBundleIdentifier" "$EXT_PLIST"
+    /usr/libexec/PlistBuddy -c "Print :NSExtension:NSExtensionPointIdentifier" "$EXT_PLIST"
+
+
       - name: Set bundle IDs (app + extension)
         run: |
           set -euo pipefail
