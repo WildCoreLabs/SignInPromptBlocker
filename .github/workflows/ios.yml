@@ -1,8 +1,6 @@
 name: iOS – Build SignInPromptBlocker (manual signing)
 
 on:
-  push:
-    branches: [ "main" ]
   workflow_dispatch:
 
 jobs:
