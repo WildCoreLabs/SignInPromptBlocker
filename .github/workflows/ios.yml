@@ -30,9 +30,11 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-      
-          EXT="./extension"
-          PROJ="./build"
+
+          cd ..
+          HACK = pwd
+          EXT="$HACK/extension"
+          PROJ="$HACK/build"
       
           # sanity checks
           test -d "$EXT"
