@@ -52,6 +52,7 @@ jobs:
 
       - name: Copy App Icons into generated Xcode project
         run: |
+          set -euxo pipefail
           WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
           PROJDIR="$(dirname "$WS")"
           ICON_SRC="${GITHUB_WORKSPACE}/AppIcon.appiconset"
