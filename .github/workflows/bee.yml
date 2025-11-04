@@ -53,11 +53,9 @@ jobs:
       - name: Copy App Icons into generated Xcode project
         run: |
           set -euxo pipefail
-          WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
-          PROJDIR="$(dirname "$WS")"
           ICON_SRC="${GITHUB_WORKSPACE}/AppIcon.appiconset"
           # find the asset catalog inside the converted project
-          ASSETS=$(find "$PROJDIR" -maxdepth 6 -type d -name "*.xcassets" | head -n 1)
+          ASSETS=$(find "$PROJ" -maxdepth 6 -type d -name "*.xcassets" | head -n 1)
           echo "Found xcassets here: $ASSETS"
           mkdir -p ""$ASSETS"/AppIcon.appiconset"
           cp -R "$ICON_SRC/"* "$ASSETS/AppIcon.appiconset/"
