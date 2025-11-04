@@ -58,7 +58,7 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          WORKSPACE="$RUNNER_TEMP/safari_project/$APP_NAME/$APP_NAME.xcworkspace"
+          WORKSPACE="$RUNNER_TEMP/safari_project/$APP_NAME/$APP_NAME.xcodeproj/project.xcworkspace"
           SCHEME="$APP_NAME (iOS)"
           ARCHIVE_PATH="$GITHUB_WORKSPACE/build/${APP_NAME}.xcarchive"
           xcodebuild -workspace "$WORKSPACE" -scheme "$SCHEME" -configuration Release \
