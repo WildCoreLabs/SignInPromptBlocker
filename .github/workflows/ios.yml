@@ -144,26 +144,26 @@ jobs:
           name: SignInPromptBlocker-ipa
           path: build/export/*.ipa
 
-- name: Upload to TestFlight
-  shell: bash
-  run: |
-    set -euxo pipefail
-
-    gem install fastlane --no-document
-
-    IPA_PATH=$(ls "$GITHUB_WORKSPACE/build/export/"*.ipa | head -n 1)
-
-    echo "writing API KEY json"
-    cat > api_key.json <<EOF
-{
-  "key_id": "${APP_STORE_CONNECT_KEY_IDENTIFIER}",
-  "issuer_id": "${APP_STORE_CONNECT_ISSUER_ID}",
-  "key": "${APP_STORE_CONNECT_KEY}"
-}
-EOF
-
-    # NOW upload using api_key_path
-    fastlane pilot upload \
-      --api_key_path api_key.json \
-      --ipa "$IPA_PATH" \
-      --skip_waiting_for_build_processing true
+      - name: Upload to TestFlight
+        shell: bash
+        run: |
+          set -euxo pipefail
+      
+          gem install fastlane --no-document
+      
+          IPA_PATH=$(ls "$GITHUB_WORKSPACE/build/export/"*.ipa | head -n 1)
+      
+          echo "writing API KEY json"
+          cat > api_key.json <<EOF
+      {
+        "key_id": "${APP_STORE_CONNECT_KEY_IDENTIFIER}",
+        "issuer_id": "${APP_STORE_CONNECT_ISSUER_ID}",
+        "key": "${APP_STORE_CONNECT_KEY}"
+      }
+      EOF
+      
+          # NOW upload using api_key_path
+          fastlane pilot upload \
+            --api_key_path api_key.json \
+            --ipa "$IPA_PATH" \
+            --skip_waiting_for_build_processing true
