@@ -51,11 +51,6 @@ jobs:
             "$EXT"
 
       - name: Save converted Xcode project as artifact
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: safari_project
-          path: "/Users/runner/work/_temp/safari_project/SignInPromptBlocker/"
         run:  
           mv "/Users/runner/work/_temp/safari_project/SignInPromptBlocker/SignInPromptBlocker Entension" "/Users/runner/work/_temp/safari_project/SignInPromptBlocker/SignInPromptBlockerEntension"
 
