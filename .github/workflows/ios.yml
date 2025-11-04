@@ -39,8 +39,7 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          export DEVELOPER_DIR="/Applications/Xcode_16.2.app/Contents/Developer"
-          EXT="$GITHUB_WORKSPACE/extension/"
+          EXT="$GITHUB_WORKSPACE/extension"
           PROJ="$RUNNER_TEMP/safari_project"
           mkdir -p "$PROJ"
           
