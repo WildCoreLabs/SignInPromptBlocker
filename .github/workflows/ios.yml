@@ -46,29 +46,29 @@ jobs:
           
           /usr/bin/xcrun safari-web-extension-converter "$EXT" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" --no-open --force --app-name "$APP_NAME"
 
-- name: Fix ALL extension bundle ids
-  shell: bash
-  run: |
-    set -euxo pipefail
-
-    # find all generated pbxproj under runner temp
-    PROJECTS=$(find "$RUNNER_TEMP" -maxdepth 8 -type f -name project.pbxproj)
-
-    echo "Found pbxproj files:"
-    echo "$PROJECTS"
-
-    for PBXPROJ in $PROJECTS; do
-      echo "Fixing: $PBXPROJ"
-      # change any secondary target to Extension
-      perl -pi -e 's/com\.wildcorelabs\.SignInPromptBlocker\.app/com.wildcorelabs.SignInPromptBlocker.Extension/g' "$PBXPROJ"
-      perl -pi -e 's/com\.wildcorelabs\.SignInPromptBlocker Extension/com.wildcorelabs.SignInPromptBlocker.Extension/g' "$PBXPROJ"
-      perl -pi -e 's/com\.wildcorelabs\.SignInPromptBlocker\.Extension/com.wildcorelabs.SignInPromptBlocker.Extension/g' "$PBXPROJ"
-      # but MAKE SURE the MAIN APP STAYS ROOT BUNDLE
-      perl -pi -e 's/com\.wildcorelabs\.SignInPromptBlocker\.Extension"\s*;/com.wildcorelabs.SignInPromptBlocker.Extension";/g' "$PBXPROJ"
-    done
-
-    echo "After fix preview (grep):"
-    grep -R "PRODUCT_BUNDLE_IDENTIFIER" -n "$RUNNER_TEMP" | head -n 50
+      - name: Fix ALL extension bundle ids
+        shell: bash
+        run: |
+          set -euxo pipefail
+      
+          # find all generated pbxproj under runner temp
+          PROJECTS=$(find "$RUNNER_TEMP" -maxdepth 8 -type f -name project.pbxproj)
+      
+          echo "Found pbxproj files:"
+          echo "$PROJECTS"
+      
+          for PBXPROJ in $PROJECTS; do
+            echo "Fixing: $PBXPROJ"
+            # change any secondary target to Extension
+            perl -pi -e 's/com\.wildcorelabs\.SignInPromptBlocker\.app/com.wildcorelabs.SignInPromptBlocker.Extension/g' "$PBXPROJ"
+            perl -pi -e 's/com\.wildcorelabs\.SignInPromptBlocker Extension/com.wildcorelabs.SignInPromptBlocker.Extension/g' "$PBXPROJ"
+            perl -pi -e 's/com\.wildcorelabs\.SignInPromptBlocker\.Extension/com.wildcorelabs.SignInPromptBlocker.Extension/g' "$PBXPROJ"
+            # but MAKE SURE the MAIN APP STAYS ROOT BUNDLE
+            perl -pi -e 's/com\.wildcorelabs\.SignInPromptBlocker\.Extension"\s*;/com.wildcorelabs.SignInPromptBlocker.Extension";/g' "$PBXPROJ"
+          done
+      
+          echo "After fix preview (grep):"
+          grep -R "PRODUCT_BUNDLE_IDENTIFIER" -n "$RUNNER_TEMP" | head -n 50
     
       - name: Locate converted xcode project
         shell: bash
