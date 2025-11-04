@@ -39,6 +39,8 @@ jobs:
           test -f "$EXT/manifest.json"
       
           mkdir -p "$PROJ"
+          pwd
+          ls
       
           # Call converter with options first, PATH LAST (no line continuations)
           xcrun safari-web-extension-converter --ios --no-open --force --app-name "$APP_NAME" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" "$EXT"
