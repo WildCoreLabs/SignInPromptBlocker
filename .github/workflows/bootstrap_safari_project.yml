@@ -29,16 +29,6 @@ jobs:
           echo "Generated structure:"
           find ios -maxdepth 3 -type d -print
 
-- name: Verify plists (app + extension)
-  run: |
-    APP_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker/Info.plist"
-    EXT_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker Extension/Info.plist"
-    /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PLIST"
-    /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$EXT_PLIST"
-    /usr/libexec/PlistBuddy -c "Print :WKAppBundleIdentifier" "$EXT_PLIST"
-    /usr/libexec/PlistBuddy -c "Print :NSExtension:NSExtensionPointIdentifier" "$EXT_PLIST"
-
-
       - name: Set bundle IDs (app + extension)
         run: |
           set -euo pipefail
@@ -65,6 +55,16 @@ jobs:
           /usr/libexec/PlistBuddy -c "Set :WKAppBundleIdentifier com.wildcorelabs.SignInPromptBlocker" "$EXT_PLIST" \
             || /usr/libexec/PlistBuddy -c "Add :WKAppBundleIdentifier string com.wildcorelabs.SignInPromptBlocker" "$EXT_PLIST"
 
+      - name: Verify plists (app + extension)
+        run: |
+          APP_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker/Info.plist"
+          EXT_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker Extension/Info.plist"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PLIST"
+          /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$EXT_PLIST"
+          /usr/libexec/PlistBuddy -c "Print :WKAppBundleIdentifier" "$EXT_PLIST"
+          /usr/libexec/PlistBuddy -c "Print :NSExtension:NSExtensionPointIdentifier" "$EXT_PLIST" 
+      
+      
       - name: Commit generated Xcode project to repo
         run: |
           git config user.name "github-actions"
