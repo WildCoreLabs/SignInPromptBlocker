@@ -155,12 +155,12 @@ jobs:
       
           echo "writing API KEY json"
           cat > api_key.json <<EOF
-      {
-        "key_id": "${APP_STORE_CONNECT_KEY_IDENTIFIER}",
-        "issuer_id": "${APP_STORE_CONNECT_ISSUER_ID}",
-        "key": "${APP_STORE_CONNECT_KEY}"
-      }
-      EOF
+          {
+            "key_id": "${APP_STORE_CONNECT_KEY_IDENTIFIER}",
+            "issuer_id": "${APP_STORE_CONNECT_ISSUER_ID}",
+            "key": "${APP_STORE_CONNECT_KEY}"
+          }
+          EOF
       
           # NOW upload using api_key_path
           fastlane pilot upload \
