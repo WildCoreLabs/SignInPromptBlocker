@@ -128,7 +128,7 @@ jobs:
           EOF
       
           echo "=== ExportOptions.plist ==="
-          cat "$GITHUB_WORKSPACE/build/ExportOptions.plist"
+          #cat "$GITHUB_WORKSPACE/build/ExportOptions.plist"
 
       - name: Export .ipa
         run: |
