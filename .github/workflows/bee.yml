@@ -1,4 +1,4 @@
-name: iOS – Build SignInPromptBlocker (manual signing)
+name: iOS – Bg)
 
 on:
   workflow_dispatch:
@@ -84,15 +84,15 @@ jobs:
           set -euxo pipefail
           xcodebuild -list -json -workspace "$WS" > schemes.json
           python3 - <<'PY' | tee -a $GITHUB_ENV
-import json, re, os, sys
-j=json.load(open('schemes.json'))
-schemes=j.get('workspace',{}).get('schemes',[])
-if not schemes: sys.exit("No schemes found")
-app=os.environ.get('APP_NAME','').strip().lower()
-cands=[s for s in schemes if re.search(r'\(iOS\)|iOS', s, re.I) or s.strip().lower()==app]
-pick=cands[0] if cands else schemes[0]
-print(f"SCHEME={pick}")
-PY
+          import json, re, os, sys
+          j=json.load(open('schemes.json'))
+          schemes=j.get('workspace',{}).get('schemes',[])
+          if not schemes: sys.exit("No schemes found")
+          app=os.environ.get('APP_NAME','').strip().lower()
+          cands=[s for s in schemes if re.search(r'\(iOS\)|iOS', s, re.I) or s.strip().lower()==app]
+          pick=cands[0] if cands else schemes[0]
+          print(f"SCHEME={pick}")
+          PY
           echo "Schemes:"; cat schemes.json
 
       # Signing: decode/import cert & profile
@@ -146,18 +146,18 @@ PY
         run: |
           set -euxo pipefail
           cat > ExportOptions.plist <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0"><dict>
-  <key>method</key><string>app-store</string>
-  <key>signingStyle</key><string>manual</string>
-  <key>provisioningProfiles</key><dict>
-    <key>${BUNDLE_ID}</key><string>${PROFILE_UUID}</string>
-  </dict>
-  <key>uploadSymbols</key><true/>
-  <key>compileBitcode</key><false/>
-</dict></plist>
-EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>provisioningProfiles</key><dict>
+              <key>${BUNDLE_ID}</key><string>${PROFILE_UUID}</string>
+            </dict>
+            <key>uploadSymbols</key><true/>
+            <key>compileBitcode</key><false/>
+          </dict></plist>
+          EOF
           echo "=== ExportOptions.plist ==="
           cat ExportOptions.plist
 
@@ -185,13 +185,13 @@ EOF
 
           printf "%s" "${APP_STORE_CONNECT_KEY}" > private_key.p8
           python3 - <<'PY'
-import json, os
-with open('private_key.p8','r') as f: key=f.read()
-data={"key_id":os.environ["APP_STORE_CONNECT_KEY_IDENTIFIER"],
-      "issuer_id":os.environ["APP_STORE_CONNECT_ISSUER_ID"],
-      "key":key}
-open('api_key.json','w').write(json.dumps(data))
-PY
+          import json, os
+          with open('private_key.p8','r') as f: key=f.read()
+          data={"key_id":os.environ["APP_STORE_CONNECT_KEY_IDENTIFIER"],
+                "issuer_id":os.environ["APP_STORE_CONNECT_ISSUER_ID"],
+                "key":key}
+          open('api_key.json','w').write(json.dumps(data))
+          PY
 
           fastlane pilot upload \
             --api_key_path api_key.json \
