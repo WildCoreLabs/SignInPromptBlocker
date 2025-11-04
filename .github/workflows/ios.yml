@@ -33,7 +33,7 @@ jobs:
         run: |
           set -euxo pipefail
           ls -la "$GITHUB_WORKSPACE/extension"
-           ls -la "$GITHUB_WORKSPACE/extension/icons"
+          ls -la "$GITHUB_WORKSPACE/extension/icons"
           test -f "$GITHUB_WORKSPACE/extension/manifest.json"
 
       - name: Convert WebExtension → Xcode project (one line; path last)
@@ -44,7 +44,7 @@ jobs:
           PROJ="$RUNNER_TEMP/safari_project"
           mkdir -p "$PROJ"
           
-          /usr/bin/xcrun safari-web-extension-converter "$EXT" --ios-only --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" --no-open --force --app-name "$APP_NAME"
+          /usr/bin/xcrun safari-web-extension-converter --ios-only --no-open --force --app-name "$APP_NAME" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" "$EXT"  
     
       - name: Locate converted xcode project
         shell: bash
