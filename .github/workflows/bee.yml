@@ -9,7 +9,7 @@ jobs:
 
     env:
       APP_NAME: SignInPromptBlocker
-      BUNDLE_ID: com.wildcorelabs.SignInPromptBlocker
+      BUNDLE_ID: com.wildcorelabs.SignInPromptBlocker.iOS
 
       # Team / Signing
       APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
