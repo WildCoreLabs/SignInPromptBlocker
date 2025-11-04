@@ -54,9 +54,9 @@ jobs:
         shell: bash
         run: |
           set -euxo pipefail
-          SCHEME_DIR="$PROJ/$APP_NAME/SignInPromptBlocker.xcodeproj/xcshareddata/xcschemes"
+          SCHEME_DIR="$RUNNER_TEMP/safari_project/$APP_NAME/SignInPromptBlocker.xcodeproj/xcshareddata/xcschemes"
           mkdir -p "$SCHEME_DIR"
-          cp "$PROJ/$APP_NAME/SignInPromptBlocker.xcodeproj/xcuserdata/"*/xcschemes/*.xcscheme "$SCHEME_DIR"/
+          cp "$RUNNER_TEMP/safari_project/$APP_NAME/SignInPromptBlocker.xcodeproj/xcuserdata/"*/xcschemes/*.xcscheme "$SCHEME_DIR"/
           echo "schemes now shared:"
           ls -la "$SCHEME_DIR"
 
