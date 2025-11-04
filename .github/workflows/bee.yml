@@ -50,26 +50,49 @@ jobs:
             --project-location "$PROJ" \
             "$EXT"
 
-      # Force unique bundle IDs so extension ≠ app
-      - name: Force unique bundle IDs (app vs extension targets)
-        run: |
-          set -euxo pipefail
-          WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
-          test -n "$WS"
-          PROJDIR="$(dirname "$WS")"
-          PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
-          test -f "$PBXPROJ"
+- name: Set correct bundle IDs (targeted by Info.plist path)
+  shell: bash
+  run: |
+    set -euxo pipefail
 
-          # 1) default ALL targets to .Extension
-          perl -pi -e 's/\bcom\.wildcorelabs\.SignInPromptBlocker\b/com.wildcorelabs.SignInPromptBlocker.Extension/g' "$PBXPROJ"
+    # Find the converted Xcode project under RUNNER_TEMP
+    WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
+    test -n "$WS" || { echo "No .xcworkspace found"; exit 1; }
+    PROJDIR="$(dirname "$WS")"
+    PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
+    test -f "$PBXPROJ" || { echo "No project.pbxproj found"; exit 1; }
 
-          # 2) restore the main APP target back to base id
-          perl -0777 -i -pe \
-            's{(/\*\s*SignInPromptBlocker(?:\s*\(iOS\))?\s*\*/.*?PRODUCT_BUNDLE_IDENTIFIER\s*=\s*)com\.wildcorelabs\.SignInPromptBlocker\.Extension(;)}{$1com.wildcorelabs.SignInPromptBlocker$2}s' \
-            "$PBXPROJ"
+    # 1) Ensure the **App** target block (its build settings reference 'SignInPromptBlocker/Info.plist')
+    #    uses the BASE bundle id (com.wildcorelabs.SignInPromptBlocker).
+    perl -0777 -i -pe \
+      's{(INFOPLIST_FILE\s*=\s*[^;]*SignInPromptBlocker/Info\.plist;[^}]*?PRODUCT_BUNDLE_IDENTIFIER\s*=\s*)com\.wildcorelabs\.SignInPromptBlocker(?:\.Extension)?(\s*;)}{$1com.wildcorelabs.SignInPromptBlocker$2}sg' \
+      "$PBXPROJ"
 
-          echo "Bundle IDs after fix:"
-          grep -n 'PRODUCT_BUNDLE_IDENTIFIER' "$PBXPROJ" | sed -n '1,200p'
+    # 2) Ensure the **Extension** target block (build settings reference 'SignInPromptBlocker Extension/Info.plist')
+    #    uses the EXTENSION bundle id (com.wildcorelabs.SignInPromptBlocker.Extension).
+    perl -0777 -i -pe \
+      's{(INFOPLIST_FILE\s*=\s*[^;]*SignInPromptBlocker\s+Extension/Info\.plist;[^}]*?PRODUCT_BUNDLE_IDENTIFIER\s*=\s*)com\.wildcorelabs\.SignInPromptBlocker(?:\.Extension)?(\s*;)}{$1com.wildcorelabs.SignInPromptBlocker.Extension$2}sg' \
+      "$PBXPROJ"
+
+- name: Verify bundle IDs in project
+  shell: bash
+  run: |
+    set -euxo pipefail
+    WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
+    PROJDIR="$(dirname "$WS")"
+    PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
+    echo "=== PRODUCT_BUNDLE_IDENTIFIER lines (with nearby INFOPLIST_FILE) ==="
+    # Show 6 lines of context around each match for quick visual check
+    awk '
+      /INFOPLIST_FILE/ {pl=NR}
+      /PRODUCT_BUNDLE_IDENTIFIER/ {
+        if (NR-pl<15 && pl>0) {
+          print "-----"; 
+          print "Context starting at line " pl ":"; 
+          for (i=pl;i<=NR;i++) print $0
+        }
+      }
+    ' "$PBXPROJ"
 
       # Discover workspace & scheme dynamically
       - name: Discover workspace path
