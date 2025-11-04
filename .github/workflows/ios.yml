@@ -46,32 +46,32 @@ jobs:
           
           /usr/bin/xcrun safari-web-extension-converter "$EXT" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" --no-open --force --app-name "$APP_NAME"
 
-- name: Fix extension bundle id
-  shell: bash
-  run: |
-    set -euxo pipefail
-
-    # Find the converted workspace under RUNNER_TEMP (where we told the converter to write)
-    WS=$(find "$RUNNER_TEMP" -maxdepth 6 -type d -name '*.xcworkspace' -print -quit)
-    echo "workspace: ${WS}"
-    test -n "$WS"
-
-    PROJDIR="$(dirname "$WS")"
-    echo "project dir: ${PROJDIR}"
-
-    PBXPROJ=$(find "$PROJDIR" -maxdepth 6 -type f -name project.pbxproj -print -quit)
-    echo "pbxproj: ${PBXPROJ}"
-    test -f "$PBXPROJ"
-
-    # Change ONLY the extension target's PRODUCT_BUNDLE_IDENTIFIER.
-    # We scope the replacement to the block that starts near "/* SignInPromptBlocker Extension */"
-    # so the main app target remains com.wildcorelabs.SignInPromptBlocker.
-    perl -0777 -pe \
-      's{(/\*\s*SignInPromptBlocker Extension\s*\*/.*?PRODUCT_BUNDLE_IDENTIFIER\s*=\s*)com\.wildcorelabs\.SignInPromptBlocker(;)}{$1com.wildcorelabs.SignInPromptBlocker.Extension$2}s' \
-      -i "$PBXPROJ"
-
-    # Show the lines we changed (for sanity)
-    grep -n 'PRODUCT_BUNDLE_IDENTIFIER' "$PBXPROJ" | sed -n '1,120p'
+      - name: Fix extension bundle id
+        shell: bash
+        run: |
+          set -euxo pipefail
+      
+          # Find the converted workspace under RUNNER_TEMP (where we told the converter to write)
+          WS=$(find "$RUNNER_TEMP" -maxdepth 6 -type d -name '*.xcworkspace' -print -quit)
+          echo "workspace: ${WS}"
+          test -n "$WS"
+      
+          PROJDIR="$(dirname "$WS")"
+          echo "project dir: ${PROJDIR}"
+      
+          PBXPROJ=$(find "$PROJDIR" -maxdepth 6 -type f -name project.pbxproj -print -quit)
+          echo "pbxproj: ${PBXPROJ}"
+          test -f "$PBXPROJ"
+      
+          # Change ONLY the extension target's PRODUCT_BUNDLE_IDENTIFIER.
+          # We scope the replacement to the block that starts near "/* SignInPromptBlocker Extension */"
+          # so the main app target remains com.wildcorelabs.SignInPromptBlocker.
+          perl -0777 -pe \
+            's{(/\*\s*SignInPromptBlocker Extension\s*\*/.*?PRODUCT_BUNDLE_IDENTIFIER\s*=\s*)com\.wildcorelabs\.SignInPromptBlocker(;)}{$1com.wildcorelabs.SignInPromptBlocker.Extension$2}s' \
+            -i "$PBXPROJ"
+      
+          # Show the lines we changed (for sanity)
+          grep -n 'PRODUCT_BUNDLE_IDENTIFIER' "$PBXPROJ" | sed -n '1,120p'
     
       - name: Locate converted xcode project
         shell: bash
