@@ -44,7 +44,7 @@ jobs:
           PROJ="$RUNNER_TEMP/safari_project"
           mkdir -p "$PROJ"
           
-          /usr/bin/xcrun safari-web-extension-converter "$EXT" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" --ios
+          /usr/bin/xcrun safari-web-extension-converter "$EXT" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" --no-open --force --app-name "$APP_NAME"
 
       - name: Locate converted xcode project
         shell: bash
