@@ -46,21 +46,21 @@ jobs:
           
           /usr/bin/xcrun safari-web-extension-converter "$EXT" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" --no-open --force --app-name "$APP_NAME"
 
-- name: Fix extension bundle id
-  run: |
-    set -euxo pipefail
-
-    # auto-detect the one generated .xcworkspace folder path
-    WS=$(find "$GITHUB_WORKSPACE" -maxdepth 4 -type d -name '*.xcworkspace' | head -n 1)
-    PROJDIR=$(dirname "$WS")
-
-    # find the extension target pbxproj file
-    PBXPROJ=$(find "$PROJDIR" -maxdepth 5 -type f -name project.pbxproj | head -n 1)
-
-    echo "Fixing extension bundle id in: $PBXPROJ"
-
-    # replace the default extension id with correct suffix Extension
-    sed -i "" 's/com\.wildcorelabs\.SignInPromptBlocker"/com.wildcorelabs.SignInPromptBlocker.Extension"/g' "$PBXPROJ"
+      - name: Fix extension bundle id
+        run: |
+          set -euxo pipefail
+      
+          # auto-detect the one generated .xcworkspace folder path
+          WS=$(find "$GITHUB_WORKSPACE" -maxdepth 4 -type d -name '*.xcworkspace' | head -n 1)
+          PROJDIR=$(dirname "$WS")
+      
+          # find the extension target pbxproj file
+          PBXPROJ=$(find "$PROJDIR" -maxdepth 5 -type f -name project.pbxproj | head -n 1)
+      
+          echo "Fixing extension bundle id in: $PBXPROJ"
+      
+          # replace the default extension id with correct suffix Extension
+          sed -i "" 's/com\.wildcorelabs\.SignInPromptBlocker"/com.wildcorelabs.SignInPromptBlocker.Extension"/g' "$PBXPROJ"
 
       - name: Locate converted xcode project
         shell: bash
