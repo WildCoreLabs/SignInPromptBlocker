@@ -1,0 +1,838 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		43E3DD742EBAB9600084972F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3DD732EBAB9600084972F /* AppDelegate.swift */; };
+		43E3DD782EBAB9600084972F /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DD762EBAB9600084972F /* Main.html */; };
+		43E3DD7A2EBAB9600084972F /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DD792EBAB9600084972F /* Icon.png */; };
+		43E3DD7C2EBAB9600084972F /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DD7B2EBAB9600084972F /* Style.css */; };
+		43E3DD7E2EBAB9600084972F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3DD7D2EBAB9600084972F /* SceneDelegate.swift */; };
+		43E3DD802EBAB9600084972F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3DD7F2EBAB9600084972F /* ViewController.swift */; };
+		43E3DD832EBAB9600084972F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DD812EBAB9600084972F /* LaunchScreen.storyboard */; };
+		43E3DD862EBAB9600084972F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DD842EBAB9600084972F /* Main.storyboard */; };
+		43E3DD922EBAB9640084972F /* SignInPromptBlockerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3DD912EBAB9640084972F /* SignInPromptBlockerTests.swift */; };
+		43E3DD9C2EBAB9640084972F /* SignInPromptBlockerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3DD9B2EBAB9640084972F /* SignInPromptBlockerUITests.swift */; };
+		43E3DD9E2EBAB9640084972F /* SignInPromptBlockerUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3DD9D2EBAB9640084972F /* SignInPromptBlockerUITestsLaunchTests.swift */; };
+		43E3DDA42EBAB9640084972F /* SignInPromptBlocker Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 43E3DDA32EBAB9640084972F /* SignInPromptBlocker Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		43E3DDA92EBAB9640084972F /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E3DDA82EBAB9640084972F /* SafariWebExtensionHandler.swift */; };
+		43E3DDAB2EBAB9640084972F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DD872EBAB9640084972F /* Assets.xcassets */; };
+		43E3DDC12EBAB9640084972F /* styles.css in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DDBC2EBAB9640084972F /* styles.css */; };
+		43E3DDC22EBAB9640084972F /* icons in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DDBD2EBAB9640084972F /* icons */; };
+		43E3DDC32EBAB9640084972F /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DDBE2EBAB9640084972F /* manifest.json */; };
+		43E3DDC42EBAB9640084972F /* options.html in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DDBF2EBAB9640084972F /* options.html */; };
+		43E3DDC52EBAB9640084972F /* content.js in Resources */ = {isa = PBXBuildFile; fileRef = 43E3DDC02EBAB9640084972F /* content.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		43E3DD8E2EBAB9640084972F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43E3DD682EBAB9600084972F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43E3DD6F2EBAB9600084972F;
+			remoteInfo = SignInPromptBlocker;
+		};
+		43E3DD982EBAB9640084972F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43E3DD682EBAB9600084972F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43E3DD6F2EBAB9600084972F;
+			remoteInfo = SignInPromptBlocker;
+		};
+		43E3DDA52EBAB9640084972F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 43E3DD682EBAB9600084972F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 43E3DDA22EBAB9640084972F;
+			remoteInfo = "SignInPromptBlocker Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		43E3DDB12EBAB9640084972F /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				43E3DDA42EBAB9640084972F /* SignInPromptBlocker Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		43E3DD702EBAB9600084972F /* SignInPromptBlocker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SignInPromptBlocker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		43E3DD732EBAB9600084972F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		43E3DD772EBAB9600084972F /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = Base.lproj/Main.html; sourceTree = "<group>"; };
+		43E3DD792EBAB9600084972F /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		43E3DD7B2EBAB9600084972F /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		43E3DD7D2EBAB9600084972F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		43E3DD7F2EBAB9600084972F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		43E3DD822EBAB9600084972F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		43E3DD852EBAB9600084972F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		43E3DD872EBAB9640084972F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		43E3DD882EBAB9640084972F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43E3DD8D2EBAB9640084972F /* SignInPromptBlockerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SignInPromptBlockerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		43E3DD912EBAB9640084972F /* SignInPromptBlockerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPromptBlockerTests.swift; sourceTree = "<group>"; };
+		43E3DD972EBAB9640084972F /* SignInPromptBlockerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SignInPromptBlockerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		43E3DD9B2EBAB9640084972F /* SignInPromptBlockerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPromptBlockerUITests.swift; sourceTree = "<group>"; };
+		43E3DD9D2EBAB9640084972F /* SignInPromptBlockerUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPromptBlockerUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		43E3DDA32EBAB9640084972F /* SignInPromptBlocker Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "SignInPromptBlocker Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		43E3DDA82EBAB9640084972F /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		43E3DDAA2EBAB9640084972F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		43E3DDBC2EBAB9640084972F /* styles.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = styles.css; path = ../../../extension/styles.css; sourceTree = "<group>"; };
+		43E3DDBD2EBAB9640084972F /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../extension/icons; sourceTree = "<group>"; };
+		43E3DDBE2EBAB9640084972F /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../extension/manifest.json; sourceTree = "<group>"; };
+		43E3DDBF2EBAB9640084972F /* options.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = options.html; path = ../../../extension/options.html; sourceTree = "<group>"; };
+		43E3DDC02EBAB9640084972F /* content.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; name = content.js; path = ../../../extension/content.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		43E3DD6D2EBAB9600084972F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43E3DD8A2EBAB9640084972F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43E3DD942EBAB9640084972F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43E3DDA02EBAB9640084972F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		43E3DD672EBAB9600084972F = {
+			isa = PBXGroup;
+			children = (
+				43E3DD722EBAB9600084972F /* SignInPromptBlocker */,
+				43E3DD902EBAB9640084972F /* SignInPromptBlockerTests */,
+				43E3DD9A2EBAB9640084972F /* SignInPromptBlockerUITests */,
+				43E3DDA72EBAB9640084972F /* SignInPromptBlocker Extension */,
+				43E3DD712EBAB9600084972F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		43E3DD712EBAB9600084972F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				43E3DD702EBAB9600084972F /* SignInPromptBlocker.app */,
+				43E3DD8D2EBAB9640084972F /* SignInPromptBlockerTests.xctest */,
+				43E3DD972EBAB9640084972F /* SignInPromptBlockerUITests.xctest */,
+				43E3DDA32EBAB9640084972F /* SignInPromptBlocker Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		43E3DD722EBAB9600084972F /* SignInPromptBlocker */ = {
+			isa = PBXGroup;
+			children = (
+				43E3DD732EBAB9600084972F /* AppDelegate.swift */,
+				43E3DD7D2EBAB9600084972F /* SceneDelegate.swift */,
+				43E3DD7F2EBAB9600084972F /* ViewController.swift */,
+				43E3DD812EBAB9600084972F /* LaunchScreen.storyboard */,
+				43E3DD842EBAB9600084972F /* Main.storyboard */,
+				43E3DD872EBAB9640084972F /* Assets.xcassets */,
+				43E3DD882EBAB9640084972F /* Info.plist */,
+				43E3DD752EBAB9600084972F /* Resources */,
+			);
+			path = SignInPromptBlocker;
+			sourceTree = "<group>";
+		};
+		43E3DD752EBAB9600084972F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43E3DD762EBAB9600084972F /* Main.html */,
+				43E3DD792EBAB9600084972F /* Icon.png */,
+				43E3DD7B2EBAB9600084972F /* Style.css */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		43E3DD902EBAB9640084972F /* SignInPromptBlockerTests */ = {
+			isa = PBXGroup;
+			children = (
+				43E3DD912EBAB9640084972F /* SignInPromptBlockerTests.swift */,
+			);
+			path = SignInPromptBlockerTests;
+			sourceTree = "<group>";
+		};
+		43E3DD9A2EBAB9640084972F /* SignInPromptBlockerUITests */ = {
+			isa = PBXGroup;
+			children = (
+				43E3DD9B2EBAB9640084972F /* SignInPromptBlockerUITests.swift */,
+				43E3DD9D2EBAB9640084972F /* SignInPromptBlockerUITestsLaunchTests.swift */,
+			);
+			path = SignInPromptBlockerUITests;
+			sourceTree = "<group>";
+		};
+		43E3DDA72EBAB9640084972F /* SignInPromptBlocker Extension */ = {
+			isa = PBXGroup;
+			children = (
+				43E3DDBB2EBAB9640084972F /* Resources */,
+				43E3DDA82EBAB9640084972F /* SafariWebExtensionHandler.swift */,
+				43E3DDAA2EBAB9640084972F /* Info.plist */,
+			);
+			path = "SignInPromptBlocker Extension";
+			sourceTree = "<group>";
+		};
+		43E3DDBB2EBAB9640084972F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				43E3DDBC2EBAB9640084972F /* styles.css */,
+				43E3DDBD2EBAB9640084972F /* icons */,
+				43E3DDBE2EBAB9640084972F /* manifest.json */,
+				43E3DDBF2EBAB9640084972F /* options.html */,
+				43E3DDC02EBAB9640084972F /* content.js */,
+			);
+			name = Resources;
+			path = "SignInPromptBlocker Extension";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		43E3DD6F2EBAB9600084972F /* SignInPromptBlocker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43E3DDB22EBAB9640084972F /* Build configuration list for PBXNativeTarget "SignInPromptBlocker" */;
+			buildPhases = (
+				43E3DD6C2EBAB9600084972F /* Sources */,
+				43E3DD6D2EBAB9600084972F /* Frameworks */,
+				43E3DD6E2EBAB9600084972F /* Resources */,
+				43E3DDB12EBAB9640084972F /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				43E3DDA62EBAB9640084972F /* PBXTargetDependency */,
+			);
+			name = SignInPromptBlocker;
+			packageProductDependencies = (
+			);
+			productName = SignInPromptBlocker;
+			productReference = 43E3DD702EBAB9600084972F /* SignInPromptBlocker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		43E3DD8C2EBAB9640084972F /* SignInPromptBlockerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43E3DDB52EBAB9640084972F /* Build configuration list for PBXNativeTarget "SignInPromptBlockerTests" */;
+			buildPhases = (
+				43E3DD892EBAB9640084972F /* Sources */,
+				43E3DD8A2EBAB9640084972F /* Frameworks */,
+				43E3DD8B2EBAB9640084972F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				43E3DD8F2EBAB9640084972F /* PBXTargetDependency */,
+			);
+			name = SignInPromptBlockerTests;
+			packageProductDependencies = (
+			);
+			productName = SignInPromptBlockerTests;
+			productReference = 43E3DD8D2EBAB9640084972F /* SignInPromptBlockerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		43E3DD962EBAB9640084972F /* SignInPromptBlockerUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43E3DDB82EBAB9640084972F /* Build configuration list for PBXNativeTarget "SignInPromptBlockerUITests" */;
+			buildPhases = (
+				43E3DD932EBAB9640084972F /* Sources */,
+				43E3DD942EBAB9640084972F /* Frameworks */,
+				43E3DD952EBAB9640084972F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				43E3DD992EBAB9640084972F /* PBXTargetDependency */,
+			);
+			name = SignInPromptBlockerUITests;
+			packageProductDependencies = (
+			);
+			productName = SignInPromptBlockerUITests;
+			productReference = 43E3DD972EBAB9640084972F /* SignInPromptBlockerUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		43E3DDA22EBAB9640084972F /* SignInPromptBlocker Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 43E3DDAE2EBAB9640084972F /* Build configuration list for PBXNativeTarget "SignInPromptBlocker Extension" */;
+			buildPhases = (
+				43E3DD9F2EBAB9640084972F /* Sources */,
+				43E3DDA02EBAB9640084972F /* Frameworks */,
+				43E3DDA12EBAB9640084972F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SignInPromptBlocker Extension";
+			packageProductDependencies = (
+			);
+			productName = "SignInPromptBlocker Extension";
+			productReference = 43E3DDA32EBAB9640084972F /* SignInPromptBlocker Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		43E3DD682EBAB9600084972F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1640;
+				LastUpgradeCheck = 1640;
+				TargetAttributes = {
+					43E3DD6F2EBAB9600084972F = {
+						CreatedOnToolsVersion = 16.4;
+					};
+					43E3DD8C2EBAB9640084972F = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 43E3DD6F2EBAB9600084972F;
+					};
+					43E3DD962EBAB9640084972F = {
+						CreatedOnToolsVersion = 16.4;
+						TestTargetID = 43E3DD6F2EBAB9600084972F;
+					};
+					43E3DDA22EBAB9640084972F = {
+						CreatedOnToolsVersion = 16.4;
+					};
+				};
+			};
+			buildConfigurationList = 43E3DD6B2EBAB9600084972F /* Build configuration list for PBXProject "SignInPromptBlocker" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 43E3DD672EBAB9600084972F;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 43E3DD712EBAB9600084972F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				43E3DD6F2EBAB9600084972F /* SignInPromptBlocker */,
+				43E3DD8C2EBAB9640084972F /* SignInPromptBlockerTests */,
+				43E3DD962EBAB9640084972F /* SignInPromptBlockerUITests */,
+				43E3DDA22EBAB9640084972F /* SignInPromptBlocker Extension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		43E3DD6E2EBAB9600084972F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43E3DD7A2EBAB9600084972F /* Icon.png in Resources */,
+				43E3DD862EBAB9600084972F /* Main.storyboard in Resources */,
+				43E3DD832EBAB9600084972F /* LaunchScreen.storyboard in Resources */,
+				43E3DD782EBAB9600084972F /* Main.html in Resources */,
+				43E3DDAB2EBAB9640084972F /* Assets.xcassets in Resources */,
+				43E3DD7C2EBAB9600084972F /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43E3DD8B2EBAB9640084972F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43E3DD952EBAB9640084972F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43E3DDA12EBAB9640084972F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43E3DDC12EBAB9640084972F /* styles.css in Resources */,
+				43E3DDC32EBAB9640084972F /* manifest.json in Resources */,
+				43E3DDC22EBAB9640084972F /* icons in Resources */,
+				43E3DDC42EBAB9640084972F /* options.html in Resources */,
+				43E3DDC52EBAB9640084972F /* content.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		43E3DD6C2EBAB9600084972F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43E3DD802EBAB9600084972F /* ViewController.swift in Sources */,
+				43E3DD742EBAB9600084972F /* AppDelegate.swift in Sources */,
+				43E3DD7E2EBAB9600084972F /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43E3DD892EBAB9640084972F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43E3DD922EBAB9640084972F /* SignInPromptBlockerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43E3DD932EBAB9640084972F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43E3DD9C2EBAB9640084972F /* SignInPromptBlockerUITests.swift in Sources */,
+				43E3DD9E2EBAB9640084972F /* SignInPromptBlockerUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		43E3DD9F2EBAB9640084972F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				43E3DDA92EBAB9640084972F /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		43E3DD8F2EBAB9640084972F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43E3DD6F2EBAB9600084972F /* SignInPromptBlocker */;
+			targetProxy = 43E3DD8E2EBAB9640084972F /* PBXContainerItemProxy */;
+		};
+		43E3DD992EBAB9640084972F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43E3DD6F2EBAB9600084972F /* SignInPromptBlocker */;
+			targetProxy = 43E3DD982EBAB9640084972F /* PBXContainerItemProxy */;
+		};
+		43E3DDA62EBAB9640084972F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 43E3DDA22EBAB9640084972F /* SignInPromptBlocker Extension */;
+			targetProxy = 43E3DDA52EBAB9640084972F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		43E3DD762EBAB9600084972F /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				43E3DD772EBAB9600084972F /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		43E3DD812EBAB9600084972F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				43E3DD822EBAB9600084972F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		43E3DD842EBAB9600084972F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				43E3DD852EBAB9600084972F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		43E3DDAC2EBAB9640084972F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		43E3DDAD2EBAB9640084972F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		43E3DDAF2EBAB9640084972F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SignInPromptBlocker Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SignInPromptBlocker Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SignInPromptBlocker.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		43E3DDB02EBAB9640084972F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SignInPromptBlocker Extension/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "SignInPromptBlocker Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SignInPromptBlocker.Extension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		43E3DDB32EBAB9640084972F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SignInPromptBlocker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SignInPromptBlocker;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SignInPromptBlocker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		43E3DDB42EBAB9640084972F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SignInPromptBlocker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SignInPromptBlocker;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SignInPromptBlocker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		43E3DDB62EBAB9640084972F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SignInPromptBlockerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SignInPromptBlocker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SignInPromptBlocker";
+			};
+			name = Debug;
+		};
+		43E3DDB72EBAB9640084972F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SignInPromptBlockerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SignInPromptBlocker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/SignInPromptBlocker";
+			};
+			name = Release;
+		};
+		43E3DDB92EBAB9640084972F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SignInPromptBlockerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SignInPromptBlocker;
+			};
+			name = Debug;
+		};
+		43E3DDBA2EBAB9640084972F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yourCompany.SignInPromptBlockerUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = SignInPromptBlocker;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		43E3DD6B2EBAB9600084972F /* Build configuration list for PBXProject "SignInPromptBlocker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43E3DDAC2EBAB9640084972F /* Debug */,
+				43E3DDAD2EBAB9640084972F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43E3DDAE2EBAB9640084972F /* Build configuration list for PBXNativeTarget "SignInPromptBlocker Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43E3DDAF2EBAB9640084972F /* Debug */,
+				43E3DDB02EBAB9640084972F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43E3DDB22EBAB9640084972F /* Build configuration list for PBXNativeTarget "SignInPromptBlocker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43E3DDB32EBAB9640084972F /* Debug */,
+				43E3DDB42EBAB9640084972F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43E3DDB52EBAB9640084972F /* Build configuration list for PBXNativeTarget "SignInPromptBlockerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43E3DDB62EBAB9640084972F /* Debug */,
+				43E3DDB72EBAB9640084972F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		43E3DDB82EBAB9640084972F /* Build configuration list for PBXNativeTarget "SignInPromptBlockerUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				43E3DDB92EBAB9640084972F /* Debug */,
+				43E3DDBA2EBAB9640084972F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 43E3DD682EBAB9600084972F /* Project object */;
+}
