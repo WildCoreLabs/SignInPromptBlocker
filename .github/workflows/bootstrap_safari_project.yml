@@ -24,7 +24,7 @@ jobs:
             --project-location ios \
             --app-name "SignInPromptBlocker" \
             --no-prompt \
-            --ios \
+            --ios-only \
             --force
           echo "Generated structure:"
           find ios -maxdepth 3 -type d -print
