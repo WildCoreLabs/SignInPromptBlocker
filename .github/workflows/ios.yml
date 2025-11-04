@@ -33,6 +33,7 @@ jobs:
         run: |
           set -euxo pipefail
           ls -la "$GITHUB_WORKSPACE/extension"
+           ls -la "$GITHUB_WORKSPACE/extension/icons"
           test -f "$GITHUB_WORKSPACE/extension/manifest.json"
 
       - name: Convert WebExtension → Xcode project (one line; path last)
