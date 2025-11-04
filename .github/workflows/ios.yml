@@ -44,7 +44,7 @@ jobs:
           PROJ="$RUNNER_TEMP/safari_project"
           mkdir -p "$PROJ"
           
-          /usr/bin/xcrun safari-web-extension-converter "$EXT" --ios --no-open --force --app-name "$APP_NAME" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" 
+          /usr/bin/xcrun safari-web-extension-converter "$EXT" --ios --no-open --app-name "$APP_NAME" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" 
 
       - name: Build (archive) with xcodebuild
         shell: bash
