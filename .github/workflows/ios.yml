@@ -26,30 +26,26 @@ jobs:
       - name: Xcode version
         run: xcodebuild -version
 
-      - name: Convert Web Extension → iOS app
-        shell: bash
-        run: |
-          set -euxo pipefail
+ - name: Convert Web Extension → iOS app
+  shell: bash
+  working-directory: ${{ github.workspace }}
+  env:
+    DEVELOPER_DIR: /Applications/Xcode_15.4.app/Contents/Developer
+  run: |
+    set -euxo pipefail
 
-          pwd
-          echo $GITHUB_WORKSPACE
-          cd ..
-          HACK="$PWD"
-          echo $HACK
-          EXT="$HACK/extension"
-          PROJ="$HACK/build"
-      
-          # sanity checks
-          test -d "$EXT"
-          test -f "$EXT/manifest.json"
-      
-          mkdir -p "$PROJ"
-          pwd
-          ls
-      
-          # Call converter with options first, PATH LAST (no line continuations)
-          xcrun safari-web-extension-converter --ios --no-open --force --app-name "$APP_NAME" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" "$EXT"
+    # Sanity checks (will fail fast if wrong)
+    ls -la extension
+    test -f extension/manifest.json
 
+    mkdir -p build
+
+    # ONE LINE. NO BACKSLASHES. PATH LAST.
+    /usr/bin/xcrun safari-web-extension-converter --ios --no-open --force \
+      --app-name "$APP_NAME" \
+      --bundle-identifier "$BUNDLE_ID" \
+      --project-location "$PWD/build" \
+      "$PWD/extension"
       - name: Decode signing assets
         run: |
           mkdir -p signing
