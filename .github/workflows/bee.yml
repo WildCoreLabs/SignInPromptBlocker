@@ -50,6 +50,17 @@ jobs:
             --project-location "$PROJ" \
             "$EXT"
 
+- name: make scheme shared
+  shell: bash
+  run: |
+    set -euxo pipefail
+    SCHEME_DIR="$PROJDIR/SignInPromptBlocker.xcodeproj/xcshareddata/xcschemes"
+    mkdir -p "$SCHEME_DIR"
+    cp "$PROJDIR/SignInPromptBlocker.xcodeproj/xcuserdata/"*/xcschemes/*.xcscheme "$SCHEME_DIR"/
+    echo "schemes now shared:"
+    ls -la "$SCHEME_DIR"
+
+
       - name: Copy App Icons into generated Xcode project
         run: |
           set -euxo pipefail
