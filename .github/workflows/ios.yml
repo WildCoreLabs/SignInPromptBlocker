@@ -26,27 +26,27 @@ jobs:
       - name: Xcode version
         run: xcodebuild -version
 
-- name: Convert Web Extension → iOS app
-  shell: bash
-  run: |
-    set -euxo pipefail
-
-    EXT="$GITHUB_WORKSPACE/extension"
-    PROJ="$GITHUB_WORKSPACE/build"
-
-    # sanity checks
-    test -d "$EXT"
-    test -f "$EXT/manifest.json"
-
-    mkdir -p "$PROJ"
-
-    # Call converter with options first, PATH LAST (no line continuations)
-    /Applications/Xcode_15.4.app/Contents/Developer/usr/bin/safari-web-extension-converter \
-      --ios --no-open --force \
-      --app-name "$APP_NAME" \
-      --bundle-identifier "$BUNDLE_ID" \
-      --project-location "$PROJ" \
-      "$EXT"
+      - name: Convert Web Extension → iOS app
+        shell: bash
+        run: |
+          set -euxo pipefail
+      
+          EXT="$GITHUB_WORKSPACE/extension"
+          PROJ="$GITHUB_WORKSPACE/build"
+      
+          # sanity checks
+          test -d "$EXT"
+          test -f "$EXT/manifest.json"
+      
+          mkdir -p "$PROJ"
+      
+          # Call converter with options first, PATH LAST (no line continuations)
+          /Applications/Xcode_15.4.app/Contents/Developer/usr/bin/safari-web-extension-converter \
+            --ios --no-open --force \
+            --app-name "$APP_NAME" \
+            --bundle-identifier "$BUNDLE_ID" \
+            --project-location "$PROJ" \
+            "$EXT"
 
       - name: Decode signing assets
         run: |
