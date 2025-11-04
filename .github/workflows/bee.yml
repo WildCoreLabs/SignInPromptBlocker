@@ -50,14 +50,14 @@ jobs:
             --project-location "$PROJ" \
             "$EXT"
 
-- name: rename extension folder (remove space)
-  run: |
-    set -euxo pipefail
-    PROJROOT=$(find . -maxdepth 3 -type d -name "SignInPromptBlocker.xcodeproj" -print -quit | xargs dirname)
-    echo "project root = $PROJROOT"
-    if [ -d "$PROJROOT/SignInPromptBlocker Extension" ]; then
-      mv "$PROJROOT/SignInPromptBlocker Extension" "$PROJROOT/SignInPromptBlockerExtension"
-    fi
+      - name: rename extension folder (remove space)
+        run: |
+          set -euxo pipefail
+          PROJROOT=$(find . -maxdepth 3 -type d -name "SignInPromptBlocker.xcodeproj" -print -quit | xargs dirname)
+          echo "project root = $PROJROOT"
+          if [ -d "$PROJROOT/SignInPromptBlocker Extension" ]; then
+            mv "$PROJROOT/SignInPromptBlocker Extension" "$PROJROOT/SignInPromptBlockerExtension"
+          fi
 
       - name: Force correct bundle IDs
         shell: bash
