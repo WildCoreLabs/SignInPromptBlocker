@@ -50,49 +50,49 @@ jobs:
             --project-location "$PROJ" \
             "$EXT"
 
-      - name: rename extension folder (remove space)
-        run: |
-          set -euxo pipefail
-          PROJROOT=$(find . -maxdepth 3 -type d -name "SignInPromptBlocker.xcodeproj" -print -quit | xargs dirname)
-          echo "project root = $PROJROOT"
-          if [ -d "$PROJROOT/SignInPromptBlocker Extension" ]; then
-            mv "$PROJROOT/SignInPromptBlocker Extension" "$PROJROOT/SignInPromptBlockerExtension"
-          fi
+   #   - name: rename extension folder (remove space)
+   #     run: |
+   #       set -euxo pipefail
+   #       PROJROOT=$(find . -maxdepth 3 -type d -name "SignInPromptBlocker.xcodeproj" -print -quit | xargs dirname)
+   #       echo "project root = $PROJROOT"
+   #       if [ -d "$PROJROOT/SignInPromptBlocker Extension" ]; then
+   #         mv "$PROJROOT/SignInPromptBlocker Extension" "$PROJROOT/SignInPromptBlockerExtension"
+   #       fi
 
-      - name: Force correct bundle IDs
-        shell: bash
-        run: |
-          set -euxo pipefail
-          WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
-          PROJDIR="$(dirname "$WS")"
-          PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
-          echo "Fixing $PBXPROJ"
-      
-          # app target → BASE ID
-          sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker.Extension/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker/" "$PBXPROJ"
-      
-          # extension target → EXTENSION ID
-          sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker;/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker.Extension;/1" "$PBXPROJ"
-
-      - name: Verify bundle IDs in project
-        shell: bash
-        run: |
-          set -euxo pipefail
-          WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
-          PROJDIR="$(dirname "$WS")"
-          PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
-          echo "=== PRODUCT_BUNDLE_IDENTIFIER lines (with nearby INFOPLIST_FILE) ==="
-          # Show 6 lines of context around each match for quick visual check
-          awk '
-            /INFOPLIST_FILE/ {pl=NR}
-            /PRODUCT_BUNDLE_IDENTIFIER/ {
-              if (NR-pl<15 && pl>0) {
-                print "-----"; 
-                print "Context starting at line " pl ":"; 
-                for (i=pl;i<=NR;i++) print $0
-              }
-            }
-          ' "$PBXPROJ"
+   #   - name: Force correct bundle IDs
+   #     shell: bash
+   #     run: |
+   #       set -euxo pipefail
+   #       WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
+   #       PROJDIR="$(dirname "$WS")"
+   #       PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
+   #      echo "Fixing $PBXPROJ"
+   #   
+   #       # app target → BASE ID
+   #       sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker.Extension/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker/" "$PBXPROJ"
+   #   
+    #      # extension target → EXTENSION ID
+   #       sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker;/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker.Extension;/1" "$PBXPROJ"
+#
+  #    - name: Verify bundle IDs in project
+   #     shell: bash
+   #     run: |
+   #       set -euxo pipefail
+  #        WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
+   #       PROJDIR="$(dirname "$WS")"
+   #       PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
+   #       echo "=== PRODUCT_BUNDLE_IDENTIFIER lines (with nearby INFOPLIST_FILE) ==="
+   #       # Show 6 lines of context around each match for quick visual check
+   #       awk '
+   #         /INFOPLIST_FILE/ {pl=NR}
+   #         /PRODUCT_BUNDLE_IDENTIFIER/ {
+   #           if (NR-pl<15 && pl>0) {
+   #             print "-----"; 
+   #             print "Context starting at line " pl ":"; 
+   #             for (i=pl;i<=NR;i++) print $0
+  #            }
+   #         }
+   #       ' "$PBXPROJ"
 
       # Discover workspace & scheme dynamically
       - name: Discover workspace path
