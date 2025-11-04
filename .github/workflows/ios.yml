@@ -154,13 +154,15 @@ jobs:
           IPA_PATH=$(ls "$GITHUB_WORKSPACE/build/export/"*.ipa | head -n 1)
       
           echo "writing API KEY json"
-          cat > api_key.json <<EOF
+          cat <<EOF > api_key.json 
           {
             "key_id": "${APP_STORE_CONNECT_KEY_IDENTIFIER}",
             "issuer_id": "${APP_STORE_CONNECT_ISSUER_ID}",
             "key": "${APP_STORE_CONNECT_KEY}"
           }
           EOF
+
+          cat api_key.json 
       
           # NOW upload using api_key_path
           fastlane pilot upload \
