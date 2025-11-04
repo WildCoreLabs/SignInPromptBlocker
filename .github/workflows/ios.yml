@@ -44,7 +44,7 @@ jobs:
           PROJ="$RUNNER_TEMP/safari_project"
           mkdir -p "$PROJ"
           
-          /usr/bin/xcrun safari-web-extension-converter "$EXT" --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" --no-open --force --app-name "$APP_NAME"
+          /usr/bin/xcrun safari-web-extension-converter "$EXT" --ios-only --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" --no-open --force --app-name "$APP_NAME"
 
       - name: Force unique bundle IDs (app vs extension targets)
         shell: bash
