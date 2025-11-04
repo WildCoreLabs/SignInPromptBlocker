@@ -148,6 +148,10 @@ jobs:
           echo "PROFILE_UUID=$PROFILE_UUID" >> $GITHUB_ENV
           echo "Using provisioning profile UUID: $PROFILE_UUID"
 
+- name: patch swift optimization level
+  run: |
+    find . -name project.pbxproj -exec sed -i '' 's/ SWIFT_OPTIMIZATION_LEVEL = -O;/ SWIFT_OPTIMIZATION_LEVEL = -Onone;/g' {} \;
+
       # Build archive
       - name: Build (archive) with xcodebuild
         run: |
