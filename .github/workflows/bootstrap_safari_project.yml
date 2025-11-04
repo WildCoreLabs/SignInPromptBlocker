@@ -1,0 +1,59 @@
+name: Bootstrap Safari Web Extension App (one-time)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  bootstrap:
+    runs-on: macos-latest
+    permissions:
+      contents: write   # allow committing generated project
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode version / converter check
+        run: |
+          xcodebuild -version
+          xcrun --find safari-web-extension-converter
+
+      - name: Generate Xcode project from /extension (fresh scaffold)
+        run: |
+          rm -rf ios
+          mkdir -p ios
+          xcrun safari-web-extension-converter extension \
+            --project-location ios \
+            --app-name "SignInPromptBlocker" \
+            --no-prompt \
+            --ios \
+            --force
+          echo "Generated structure:"
+          find ios -maxdepth 3 -type d -print
+
+      - name: Set bundle IDs (app + extension)
+        run: |
+          APP_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker/Info.plist"
+          EXT_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker Extension/Info.plist"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier ${{ secrets.BUNDLE_ID_APP }}" "$APP_PLIST"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier ${{ secrets.BUNDLE_ID_EXT }}" "$EXT_PLIST"
+          echo "App ID:"; /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PLIST"
+          echo "Ext ID:"; /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$EXT_PLIST"
+
+      - name: Inject App Icons (if present)
+        run: |
+          if [ -d "AppIcon.appiconset" ]; then
+            ICONS_DIR="ios/SignInPromptBlocker/SignInPromptBlocker/Assets.xcassets/AppIcon.appiconset"
+            rm -rf "$ICONS_DIR"
+            mkdir -p "$ICONS_DIR"
+            cp -R AppIcon.appiconset/* "$ICONS_DIR"/
+            echo "Injected icons:"; ls -la "$ICONS_DIR" || true
+          else
+            echo "No AppIcon.appiconset found at repo root; skipping."
+          fi
+
+      - name: Commit generated Xcode project to repo
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@users.noreply.github.com"
+          git add ios
+          git commit -m "chore(bootstrap): add iOS Safari Web Extension App project (app + extension)"
+          git push
