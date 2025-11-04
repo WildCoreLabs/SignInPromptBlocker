@@ -31,8 +31,8 @@ jobs:
         run: |
           set -euxo pipefail
       
-          EXT="$GITHUB_WORKSPACE/extension"
-          PROJ="$GITHUB_WORKSPACE/build"
+          EXT="./extension"
+          PROJ="./build"
       
           # sanity checks
           test -d "$EXT"
