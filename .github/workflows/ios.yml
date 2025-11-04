@@ -31,8 +31,11 @@ jobs:
         run: |
           set -euxo pipefail
 
+          pwd
+          echo $GITHUB_WORKSPACE
           cd ..
           HACK=pwd
+          echo $HACK
           EXT="$HACK/extension"
           PROJ="$HACK/build"
       
