@@ -33,8 +33,8 @@ jobs:
         run: |
           APP_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker/Info.plist"
           EXT_PLIST="ios/SignInPromptBlocker/SignInPromptBlocker Extension/Info.plist"
-          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier ${{ secrets.BUNDLE_ID_APP }}" "$APP_PLIST"
-          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier ${{ secrets.BUNDLE_ID_EXT }}" "$EXT_PLIST"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.wildcorelabs.SignInPromptBlocker" "$APP_PLIST"
+          /usr/libexec/PlistBuddy -c "Set :CFBundleIdentifier com.wildcorelabs.SignInPromptBlocker.Extension" "$EXT_PLIST"
           echo "App ID:"; /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$APP_PLIST"
           echo "Ext ID:"; /usr/libexec/PlistBuddy -c "Print :CFBundleIdentifier" "$EXT_PLIST"
 
