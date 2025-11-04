@@ -55,7 +55,8 @@ jobs:
           set -euxo pipefail
           ICON_SRC="${GITHUB_WORKSPACE}/AppIcon.appiconset"
           # find the asset catalog inside the converted project
-          ASSETS=$(find "$PROJ" -maxdepth 6 -type d -name "*.xcassets" | head -n 1)
+          
+          ASSETS=$(find "$RUNNER_TEMP/safari_project/$APP_NAME/" -maxdepth 6 -type d -name "*.xcassets" | head -n 1)
           echo "Found xcassets here: $ASSETS"
           mkdir -p ""$ASSETS"/AppIcon.appiconset"
           cp -R "$ICON_SRC/"* "$ASSETS/AppIcon.appiconset/"
