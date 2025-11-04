@@ -50,20 +50,20 @@ jobs:
             --project-location "$PROJ" \
             "$EXT"
 
-- name: Force correct bundle IDs
-  shell: bash
-  run: |
-    set -euxo pipefail
-    WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
-    PROJDIR="$(dirname "$WS")"
-    PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
-    echo "Fixing $PBXPROJ"
-
-    # app target → BASE ID
-    sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker.Extension/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker/" "$PBXPROJ"
-
-    # extension target → EXTENSION ID
-    sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker;/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker.Extension;/1" "$PBXPROJ"
+      - name: Force correct bundle IDs
+        shell: bash
+        run: |
+          set -euxo pipefail
+          WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
+          PROJDIR="$(dirname "$WS")"
+          PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
+          echo "Fixing $PBXPROJ"
+      
+          # app target → BASE ID
+          sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker.Extension/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker/" "$PBXPROJ"
+      
+          # extension target → EXTENSION ID
+          sed -i '' "s/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker;/PRODUCT_BUNDLE_IDENTIFIER = com.wildcorelabs.SignInPromptBlocker.Extension;/1" "$PBXPROJ"
 
       - name: Verify bundle IDs in project
         shell: bash
