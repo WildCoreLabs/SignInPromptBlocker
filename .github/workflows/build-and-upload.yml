@@ -1,0 +1,105 @@
+name: iOS — Build & Upload (Safari Web Extension)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_and_upload:
+    runs-on: macos-14
+    env:
+      # ⬇️ Change these if your IDs differ
+      APP_BUNDLE_ID: com.wildcorelabs.SignInPromptBlocker
+      EXT_BUNDLE_ID: com.wildcorelabs.SignInPromptBlocker.Extension
+
+      # If your .xcodeproj or scheme names differ, update these two:
+      PROJECT_PATH: ios/SignInPromptBlocker/SignInPromptBlocker.xcodeproj
+      SCHEME: SignInPromptBlocker
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode version
+        run: |
+          xcodebuild -version
+          xcrun --sdk iphoneos --show-sdk-version
+
+      # ---------- Certificates ----------
+      - name: Create temporary keychain
+        run: |
+          KEYCHAIN=build.keychain
+          security create-keychain -p "" "$KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN"
+          security list-keychains -d user -s "$KEYCHAIN" login.keychain
+          security default-keychain -s "$KEYCHAIN"
+          echo "${{ secrets.P12_BASE64 }}" | base64 --decode > dist.p12
+          security import dist.p12 -k "$KEYCHAIN" -P "${{ secrets.P12_PASSWORD }}" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "" "$KEYCHAIN"
+
+      # ---------- Provisioning Profiles ----------
+      - name: Install provisioning profiles (app + extension)
+        run: |
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+          echo "${{ secrets.PROVISION_PROFILE_ALL_BASE64 }}" | base64 --decode > "$HOME/Library/MobileDevice/Provisioning Profiles/app.mobileprovision"
+          echo "${{ secrets.PROVISION_PROFILE_EXT_BASE64 }}" | base64 --decode > "$HOME/Library/MobileDevice/Provisioning Profiles/ext.mobileprovision"
+          ls -la "$HOME/Library/MobileDevice/Provisioning Profiles"
+
+      # ---------- Build Archive ----------
+      - name: Build archive (Release, signed)
+        run: |
+          set -e
+          xcodebuild \
+            -project "$PROJECT_PATH" \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -archivePath build/App.xcarchive \
+            DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGN_IDENTITY="Apple Distribution" \
+            clean archive | xcpretty
+
+      # ---------- Export signed IPA ----------
+      - name: Create export options
+        run: |
+          /usr/libexec/PlistBuddy -c "Add :method string app-store" ExportOptions.plist
+          /usr/libexec/PlistBuddy -c "Add :teamID string ${{ secrets.APPLE_TEAM_ID }}" ExportOptions.plist
+          /usr/libexec/PlistBuddy -c "Add :signingStyle string manual" ExportOptions.plist
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles dict" ExportOptions.plist
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:${APP_BUNDLE_ID} string app" ExportOptions.plist
+          /usr/libexec/PlistBuddy -c "Add :provisioningProfiles:${EXT_BUNDLE_ID} string ext" ExportOptions.plist
+          cat ExportOptions.plist
+
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath build/App.xcarchive \
+            -exportPath build/export \
+            -exportOptionsPlist ExportOptions.plist | xcpretty
+          ls -la build/export
+
+      # ---------- Upload to TestFlight ----------
+      - name: Install fastlane
+        run: sudo gem install fastlane -NV
+
+      - name: Prepare ASC API key (safe JSON)
+        run: |
+          python3 - <<'PY'
+          import os, json
+          data = {
+            "key_id": os.environ["KEY_ID"],
+            "issuer_id": os.environ["ISSUER_ID"],
+            "key": os.environ["KEY_PEM"],
+            "in_house": False
+          }
+          open("api_key.json","w").write(json.dumps(data))
+          print("Wrote api_key.json")
+          PY
+        env:
+          KEY_ID:        ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          ISSUER_ID:     ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          KEY_PEM:       ${{ secrets.APP_STORE_CONNECT_KEY }}  # full contents of .p8
+
+      - name: Upload to TestFlight
+        run: |
+          IPA_PATH=$(ls build/export/*.ipa | head -n 1)
+          fastlane pilot upload --api_key_path api_key.json --ipa "$IPA_PATH" --skip_waiting_for_build_processing true
