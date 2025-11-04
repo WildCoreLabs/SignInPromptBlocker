@@ -45,34 +45,6 @@ jobs:
           mkdir -p "$PROJ"
           
           /usr/bin/xcrun safari-web-extension-converter "$EXT" --ios-only --bundle-identifier "$BUNDLE_ID" --project-location "$PROJ" --no-open --force --app-name "$APP_NAME"
-
-      - name: Force unique bundle IDs (app vs extension targets)
-        shell: bash
-        run: |
-          set -euxo pipefail
-      
-          # Find the generated project under the temp dir where the converter wrote it
-          WS=$(find "$RUNNER_TEMP" -maxdepth 8 -type d -name '*.xcworkspace' -print -quit)
-          test -n "$WS" || { echo "No .xcworkspace found"; exit 1; }
-          PROJDIR="$(dirname "$WS")"
-      
-          PBXPROJ=$(find "$PROJDIR" -maxdepth 8 -type f -name project.pbxproj -print -quit)
-          test -f "$PBXPROJ" || { echo "No project.pbxproj found"; exit 1; }
-      
-          echo "Project: $PBXPROJ"
-      
-          # 1) Make EVERYTHING default to the extension bundle id…
-          perl -pi -e 's/\bcom\.wildcorelabs\.SignInPromptBlocker\b/com.wildcorelabs.SignInPromptBlocker.Extension/g' "$PBXPROJ"
-      
-          # 2) …then restore the APP target back to the base id.
-          #    Match the app target block (name "SignInPromptBlocker" or "SignInPromptBlocker (iOS)")
-          perl -0777 -i -pe \
-            's{(/\*\s*SignInPromptBlocker(?:\s*\(iOS\))?\s*\*/.*?PRODUCT_BUNDLE_IDENTIFIER\s*=\s*)com\.wildcorelabs\.SignInPromptBlocker\.Extension(;)}{$1com.wildcorelabs.SignInPromptBlocker$2}s' \
-            "$PBXPROJ"
-      
-          # Show what we ended up with
-          echo "Bundle IDs after fix:"
-          grep -n 'PRODUCT_BUNDLE_IDENTIFIER' "$PBXPROJ" | sed -n '1,200p'
     
       - name: Locate converted xcode project
         shell: bash
