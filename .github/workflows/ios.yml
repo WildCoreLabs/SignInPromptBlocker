@@ -25,6 +25,7 @@ jobs:
 
       - name: Select xCode
         uses: maxim-lobanov/setup-xcode@v1
+        with:
          xcode-version: "15.4"
 
       - name: Sanity check repo
