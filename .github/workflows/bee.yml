@@ -50,10 +50,14 @@ jobs:
             --project-location "$PROJ" \
             "$EXT"
 
-      - name: Save converted Xcode project as artifact
-        run:  
-          ls "/Users/runner/work/_temp/safari_project/SignInPromptBlocker"
-          mv "/Users/runner/work/_temp/safari_project/SignInPromptBlocke/SignInPromptBlocker Entension" "/Users/runner/work/_temp/safari_project/SignInPromptBlocke/SignInPromptBlockerEntension"
+- name: rename extension folder (remove space)
+  run: |
+    set -euxo pipefail
+    PROJROOT=$(find . -maxdepth 3 -type d -name "SignInPromptBlocker.xcodeproj" -print -quit | xargs dirname)
+    echo "project root = $PROJROOT"
+    if [ -d "$PROJROOT/SignInPromptBlocker Extension" ]; then
+      mv "$PROJROOT/SignInPromptBlocker Extension" "$PROJROOT/SignInPromptBlockerExtension"
+    fi
 
       - name: Force correct bundle IDs
         shell: bash
