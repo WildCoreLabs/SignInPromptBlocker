@@ -26,15 +26,35 @@ jobs:
       - name: Xcode version
         run: xcodebuild -version
 
-      - name: Convert Web Extension → iOS app
-        run: |
-          mkdir -p build
-          xcrun safari-web-extension-converter extension \
-            --ios \
-            --app-name "$APP_NAME" \
-            --bundle-identifier "$BUNDLE_ID" \
-            --project-location "build" \
-            --no-open --force
+- name: Convert Web Extension → iOS app
+  shell: bash
+  run: |
+    set -euxo pipefail
+    echo "Working dir:"
+    pwd
+
+    echo "Check converter location:"
+    xcrun --find safari-web-extension-converter
+
+    echo "List repo root:"
+    ls -la
+
+    echo "List extension folder (should contain manifest.json):"
+    ls -la extension
+
+    echo "Show manifest head:"
+    head -n 40 extension/manifest.json || true
+
+    mkdir -p build
+    EXT_PATH="$(pwd)/extension"
+    PROJ_PATH="$(pwd)/build"
+
+    xcrun safari-web-extension-converter "$EXT_PATH" \
+      --ios \
+      --app-name "$APP_NAME" \
+      --bundle-identifier "$BUNDLE_ID" \
+      --project-location "$PROJ_PATH" \
+      --no-open --force
 
       - name: Decode signing assets
         run: |
