@@ -54,18 +54,6 @@ jobs:
           # Link extension → host app (Safari expects this key)
           /usr/libexec/PlistBuddy -c "Set :WKAppBundleIdentifier com.wildcorelabs.SignInPromptBlocker" "$EXT_PLIST" \
             || /usr/libexec/PlistBuddy -c "Add :WKAppBundleIdentifier string com.wildcorelabs.SignInPromptBlocker" "$EXT_PLIST"
-      
-      - name: Inject App Icons (if present)
-        run: |
-          if [ -d "AppIcon.appiconset" ]; then
-            ICONS_DIR="ios/SignInPromptBlocker/SignInPromptBlocker/Assets.xcassets/AppIcon.appiconset"
-            rm -rf "$ICONS_DIR"
-            mkdir -p "$ICONS_DIR"
-            cp -R AppIcon.appiconset/* "$ICONS_DIR"/
-            echo "Injected icons:"; ls -la "$ICONS_DIR" || true
-          else
-            echo "No AppIcon.appiconset found at repo root; skipping."
-          fi
 
       - name: Commit generated Xcode project to repo
         run: |
