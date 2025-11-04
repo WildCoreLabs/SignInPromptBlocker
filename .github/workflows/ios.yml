@@ -144,37 +144,37 @@ jobs:
           name: SignInPromptBlocker-ipa
           path: build/export/*.ipa
 
- - name: Upload to TestFlight
-  shell: bash
-  run: |
-    set -euxo pipefail
-
-    gem install fastlane --no-document
-
-    IPA_PATH=$(ls "$GITHUB_WORKSPACE/build/export/"*.ipa | head -n 1)
-
-    # Write the multi-line PEM from secrets to a file
-    printf "%s" "${APP_STORE_CONNECT_KEY}" > private_key.p8
-
-    # Build a valid JSON file with proper escaping using Python
-    python3 - <<'PY'
-import json, os
-with open('private_key.p8','r') as f:
-    key = f.read()
-data = {
-  "key_id": os.environ["APP_STORE_CONNECT_KEY_IDENTIFIER"],
-  "issuer_id": os.environ["APP_STORE_CONNECT_ISSUER_ID"],
-  "key": key
-}
-with open('api_key.json','w') as f:
-    json.dump(data, f)
-PY
-
-    echo "api_key.json:"
-    cat api_key.json
-
-    # Upload via Fastlane (pilot)
-    fastlane pilot upload \
-      --api_key_path api_key.json \
-      --ipa "$IPA_PATH" \
-      --skip_waiting_for_build_processing true
+      - name: Upload to TestFlight
+        shell: bash
+        run: |
+          set -euxo pipefail
+      
+          gem install fastlane --no-document
+      
+          IPA_PATH=$(ls "$GITHUB_WORKSPACE/build/export/"*.ipa | head -n 1)
+      
+          # Write the multi-line PEM from secrets to a file
+          printf "%s" "${APP_STORE_CONNECT_KEY}" > private_key.p8
+      
+          # Build a valid JSON file with proper escaping using Python
+          python3 - <<'PY'
+          import json, os
+          with open('private_key.p8','r') as f:
+            key = f.read()
+          data = {
+            "key_id": os.environ["APP_STORE_CONNECT_KEY_IDENTIFIER"],
+            "issuer_id": os.environ["APP_STORE_CONNECT_ISSUER_ID"],
+            "key": key
+          }
+          with open('api_key.json','w') as f:
+            json.dump(data, f)
+          PY
+      
+          echo "api_key.json:"
+          cat api_key.json
+      
+          # Upload via Fastlane (pilot)
+          fastlane pilot upload \
+            --api_key_path api_key.json \
+            --ipa "$IPA_PATH" \
+            --skip_waiting_for_build_processing true
