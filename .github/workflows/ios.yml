@@ -152,13 +152,15 @@ jobs:
           gem install fastlane --no-document
       
           IPA_PATH=$(ls "$GITHUB_WORKSPACE/build/export/"*.ipa | head -n 1)
+
+          echo "$APP_STORE_CONNECT_KEY" | base64 --decode > private_key.p8
       
           echo "writing API KEY json"
           cat <<EOF > api_key.json 
           {
             "key_id": "${APP_STORE_CONNECT_KEY_IDENTIFIER}",
             "issuer_id": "${APP_STORE_CONNECT_ISSUER_ID}",
-            "key": "${APP_STORE_CONNECT_KEY}"
+            "key": "$(cat private_key.p8)"
           }
           EOF
 
