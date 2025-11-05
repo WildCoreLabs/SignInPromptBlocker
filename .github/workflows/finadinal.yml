@@ -72,7 +72,8 @@ jobs:
           security set-keychain-settings -lut 3600 "$KEYCHAIN"
           security unlock-keychain -p "$PASS" "$KEYCHAIN"
           echo "$P12_BASE64" | base64 --decode > cert.p12
-          security import cert.p12 -k "$KEYCHAIN" -P "$P12_PASSWORD" -A -t identities
+          security import cert.p12 -k "$KEYCHAIN" -P "$P12_PASSWORD" -f pkcs12  -T /usr/bin/codesign -T /usr/bin/security
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$PASS" "$KEYCHAIN"
           security list-keychains -d user -s "$KEYCHAIN" login.keychain
           security find-identity -v "$KEYCHAIN" || true
 
