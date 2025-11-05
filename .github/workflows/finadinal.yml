@@ -1,0 +1,198 @@
+name: iOS — TestFlight (Safari Web Ext)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_and_upload:
+    runs-on: macos-14
+
+    env:
+      # === Your static metadata (exact to your screenshots) ===
+      PROJECT_PATH: ios/SignInPromptBlocker/SignInPromptBlocker.xcodeproj
+      SCHEME: SignInPromptBlocker
+      APP_BUNDLE_ID: com.wildcorelabs.SignInPromptBlocker
+      EXT_BUNDLE_ID: com.wildcorelabs.SignInPromptBlocker.Extension
+
+      # === Secrets you already created (names match your screenshot) ===
+      TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      APPSTORE_ISSUER_ID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+      APPSTORE_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER }}
+      APPSTORE_API_PRIVATE_KEY_B64: ${{ secrets.APP_STORE_CONNECT_KEY }}
+      P12_BASE64: ${{ secrets.P12_BASE64 }}
+      P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+      PROVISION_APP_B64: ${{ secrets.PROVISION_PROFILE_ALL_BASE64 }}
+      PROVISION_EXT_B64: ${{ secrets.PROVISION_PROFILE_EXT_BASE64 }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Show Xcode versions on runner
+        run: |
+          ls -1 /Applications | sed -n 's/^Xcode.*/&/p'
+          xcodebuild -version || true
+
+      - name: Select a compatible Xcode (try 16.4 → 16.2 → default)
+        id: xcodesel
+        shell: bash
+        run: |
+          set -e
+          pick=""
+          for CAND in /Applications/Xcode_16.4.app /Applications/Xcode_16.2.app; do
+            if [ -d "$CAND" ]; then
+              sudo xcode-select -s "$CAND"
+              pick="$CAND"
+              break
+            fi
+          done
+          if [ -z "$pick" ]; then
+            echo "No pinned Xcode found; using system default."
+          fi
+          echo "Using Xcode: $(xcode-select -p)"
+          xcodebuild -version
+
+      - name: Verify project & scheme exist
+        shell: bash
+        run: |
+          set -e
+          test -d "$PROJECT_PATH" || { echo "Project not found: $PROJECT_PATH"; exit 1; }
+          xcodebuild -list -project "$PROJECT_PATH"
+          # Fail if scheme is missing
+          xcodebuild -list -project "$PROJECT_PATH" | grep -q "^\s*${SCHEME}$" || {
+            echo "Scheme '${SCHEME}' not found (is it shared?)."; exit 1;
+          }
+
+      - name: Create temporary keychain & import .p12
+        run: |
+          set -e
+          KEYCHAIN=build.keychain
+          PASS=$(openssl rand -hex 12)
+          security create-keychain -p "$PASS" "$KEYCHAIN"
+          security set-keychain-settings -lut 3600 "$KEYCHAIN"
+          security unlock-keychain -p "$PASS" "$KEYCHAIN"
+          echo "$P12_BASE64" | base64 --decode > cert.p12
+          security import cert.p12 -k "$KEYCHAIN" -P "$P12_PASSWORD" -A -t identities
+          security list-keychains -d user -s "$KEYCHAIN" login.keychain
+          security find-identity -v "$KEYCHAIN" || true
+
+      - name: Install provisioning profiles (app + extension)
+        id: profs
+        shell: bash
+        run: |
+          set -e
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+
+          echo "$PROVISION_APP_B64" | base64 --decode > app.mobileprovision
+          echo "$PROVISION_EXT_B64" | base64 --decode > ext.mobileprovision
+
+          getInfo() {
+            /usr/bin/security cms -D -i "$1" > tmp.plist
+            UUID=$(/usr/libexec/PlistBuddy -c 'Print :UUID' tmp.plist) || { echo "Profile has no UUID"; exit 1; }
+            NAME=$(/usr/libexec/PlistBuddy -c 'Print :Name' tmp.plist) || NAME="Unknown"
+            echo "$UUID $NAME"
+            mv "$1" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
+            rm -f tmp.plist
+          }
+
+          read APP_UUID APP_NAME < <(getInfo app.mobileprovision)
+          read EXT_UUID EXT_NAME < <(getInfo ext.mobileprovision)
+
+          echo "APP_PROFILE_NAME=$APP_NAME" >> $GITHUB_OUTPUT
+          echo "EXT_PROFILE_NAME=$EXT_NAME" >> $GITHUB_OUTPUT
+          echo "Installed profiles:"
+          echo "  App: $APP_NAME ($APP_UUID)"
+          echo "  Ext: $EXT_NAME ($EXT_UUID)"
+
+      - name: Build archive (unsigned)
+        shell: bash
+        run: |
+          set -e
+          rm -rf build
+          xcodebuild \
+            -project "$PROJECT_PATH" \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -archivePath build/App.xcarchive \
+            -destination 'generic/platform=iOS' \
+            -sdk iphoneos \
+            DEVELOPMENT_TEAM="$TEAM_ID" \
+            CODE_SIGN_STYLE=Manual \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            clean archive | xcpretty
+
+          test -d build/App.xcarchive || { echo "Archive missing after build"; exit 1; }
+
+      - name: Create ExportOptions.plist (App Store)
+        run: |
+          set -e
+          cat > ExportOptions.plist <<'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store</string>
+            <key>teamID</key><string>${TEAM_ID}</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>destination</key><string>export</string>
+            <key>generateAppStoreInformation</key><true/>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>${APP_BUNDLE_ID}</key><string>${{ steps.profs.outputs.APP_PROFILE_NAME }}</string>
+              <key>${EXT_BUNDLE_ID}</key><string>${{ steps.profs.outputs.EXT_PROFILE_NAME }}</string>
+            </dict>
+          </dict>
+          </plist>
+          PLIST
+          /usr/libexec/PlistBuddy -c "Print" ExportOptions.plist
+
+      - name: Export IPA
+        shell: bash
+        run: |
+          set -e
+          mkdir -p build/export
+          xcodebuild -exportArchive \
+            -archivePath build/App.xcarchive \
+            -exportPath build/export \
+            -exportOptionsPlist ExportOptions.plist | xcpretty
+          ls -la build/export
+
+      - name: Prepare ASC API key (safe JSON)
+        shell: bash
+        run: |
+          set -e
+          echo "$APPSTORE_API_PRIVATE_KEY_B64" | base64 --decode > AuthKey.p8
+          python3 - <<'PY'
+          import os, json
+          key = open('AuthKey.p8','r').read()
+          data = {
+            "key_id": os.environ["APPSTORE_KEY_ID"],
+            "issuer_id": os.environ["APPSTORE_ISSUER_ID"],
+            "key": key,
+            "in_house": False
+          }
+          open('api_key.json','w').write(json.dumps(data))
+          PY
+          ls -l api_key.json
+
+      - name: Install fastlane
+        run: sudo gem install fastlane -N
+
+      - name: Upload to TestFlight
+        env:
+          IPA_PATH: build/export/*.ipa
+        run: |
+          set -e
+          fastlane pilot upload --api_key_path api_key.json --ipa "$IPA_PATH" --skip_waiting_for_build_processing true
+
+      - name: Upload artifacts (IPA & logs)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa-and-logs
+          path: |
+            build/export/*.ipa
+            ExportOptions.plist
+            build/App.xcarchive
+          if-no-files-found: ignore
