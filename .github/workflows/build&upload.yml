@@ -1,0 +1,153 @@
+name: iOS — TestFlight (Safari Web Extension)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build_and_upload:
+    runs-on: macos-14
+
+    env:
+      PROJECT_PATH: ios/SignInPromptBlocker/SignInPromptBlocker.xcodeproj
+      SCHEME: SignInPromptBlocker
+
+      # Bundle IDs
+      APP_BUNDLE_ID: com.wildcorelabs.SignInPromptBlocker
+      EXT_BUNDLE_ID: com.wildcorelabs.SignInPromptBlocker.Extension
+
+      # Provisioning Profile NAMES (exactly as shown in Apple Dev portal)
+      APP_PROFILE_NAME: SignInPromptBlocker
+      EXT_PROFILE_NAME: SignInPromptBlockerExtension
+
+      # Team
+      TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 16.2
+        run: |
+          sudo xcode-select -s /Applications/Xcode_16.2.app
+          xcodebuild -version
+
+      # ---------- Codesigning: certificate ----------
+      - name: Create temporary keychain & import .p12
+        shell: bash
+        env:
+          P12_BASE64: ${{ secrets.P12_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+        run: |
+          SECURITY_KEYCHAIN=build.keychain-db
+          security create-keychain -p '' "$SECURITY_KEYCHAIN"
+          security set-keychain-settings -lut 21600 "$SECURITY_KEYCHAIN"
+          security unlock-keychain -p '' "$SECURITY_KEYCHAIN"
+          echo "$P12_BASE64" | base64 --decode > signing.p12
+          security import signing.p12 -k "$SECURITY_KEYCHAIN" -P "$P12_PASSWORD" -T /usr/bin/codesign -T /usr/bin/security
+          security list-keychains -d user -s "$SECURITY_KEYCHAIN" login.keychain-db
+          security set-key-partition-list -S apple-tool:,apple: -s -k '' "$SECURITY_KEYCHAIN"
+
+      # ---------- Provisioning profiles ----------
+      - name: Install provisioning profiles (app + extension)
+        shell: bash
+        env:
+          APP_PROFILE_B64: ${{ secrets.PROVISION_PROFILE_ALL_BASE64 }}
+          EXT_PROFILE_B64: ${{ secrets.PROVISION_PROFILE_EXT_BASE64 }}
+        run: |
+          mkdir -p "$HOME/Library/MobileDevice/Provisioning Profiles"
+
+          decode_and_place() {
+            local B64="$1"
+            local OUT=tmp.mobileprovision
+            echo "$B64" | base64 --decode > "$OUT"
+            # Get UUID for filename
+            UUID=$(/usr/libexec/PlistBuddy -c 'Print :UUID' /dev/stdin <<<"$(/usr/bin/security cms -D -i "$OUT")")
+            mv "$OUT" "$HOME/Library/MobileDevice/Provisioning Profiles/$UUID.mobileprovision"
+          }
+
+          decode_and_place "$APP_PROFILE_B64"
+          decode_and_place "$EXT_PROFILE_B64"
+
+      # ---------- Build archive ----------
+      - name: Build (Release, signed)
+        shell: bash
+        env:
+          MD_APPLE_SDK_ROOT: /Applications/Xcode_16.2.app
+        run: |
+          xcodebuild \
+            -project "$PROJECT_PATH" \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -archivePath build/App.xcarchive \
+            DEVELOPMENT_TEAM="$TEAM_ID" \
+            CODE_SIGN_STYLE=Manual \
+            OTHER_CODE_SIGN_FLAGS="--keychain=build.keychain-db" \
+            clean archive | xcpretty
+
+      # ---------- ExportOptions.plist ----------
+      - name: Create export options
+        shell: bash
+        run: |
+          cat > ExportOptions.plist <<'PLIST'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key><string>app-store</string>
+            <key>signingStyle</key><string>manual</string>
+            <key>teamID</key><string>${TEAM_ID}</string>
+            <key>provisioningProfiles</key>
+            <dict>
+              <key>${APP_BUNDLE_ID}</key><string>${APP_PROFILE_NAME}</string>
+              <key>${EXT_BUNDLE_ID}</key><string>${EXT_PROFILE_NAME}</string>
+            </dict>
+            <key>uploadSymbols</key><true/>
+            <key>stripSwiftSymbols</key><true/>
+            <key>compileBitcode</key><false/>
+          </dict>
+          </plist>
+          PLIST
+
+      # ---------- Export IPA ----------
+      - name: Export IPA
+        shell: bash
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath build/App.xcarchive \
+            -exportPath build/export \
+            -exportOptionsPlist ExportOptions.plist | xcpretty
+          ls -la build/export
+
+      # ---------- App Store Connect API key (safe JSON) ----------
+      - name: Prepare ASC API key (safe JSON)
+        shell: bash
+        env:
+          ASC_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER }}
+          ASC_ISSUER: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          ASC_P8_B64: ${{ secrets.APP_STORE_CONNECT_KEY }}
+        run: |
+          echo "$ASC_P8_B64" | base64 --decode > AuthKey.p8
+          python3 - <<'PY'
+          import os, json
+          with open('AuthKey.p8','r') as f:
+              key = f.read()
+          data = {
+            "key_id": os.environ["ASC_KEY_ID"],
+            "issuer_id": os.environ["ASC_ISSUER"],
+            "key": key,
+            "in_house": False
+          }
+          with open('api_key.json','w') as f: json.dump(data,f)
+          PY
+          ls -l api_key.json
+
+      # ---------- Upload to TestFlight ----------
+      - name: Install fastlane
+        run: sudo gem install fastlane -NV
+
+      - name: Upload to TestFlight
+        shell: bash
+        env:
+          IPA_PATH: build/export/*.ipa
+        run: |
+          fastlane pilot upload --api_key_path api_key.json --ipa "$IPA_PATH" --skip_waiting_for_build_processing true
